@@ -376,14 +376,18 @@
   /**
    * ARRAY_BY_EXTRUDERS based on EXTRUDERS
    */
-  #if EXTRUDERS > 3
-    #define ARRAY_BY_EXTRUDERS(v1, v2, v3, v4) { v1, v2, v3, v4 }
-  #elif EXTRUDERS > 2
-    #define ARRAY_BY_EXTRUDERS(v1, v2, v3, v4) { v1, v2, v3 }
-  #elif EXTRUDERS > 1
-    #define ARRAY_BY_EXTRUDERS(v1, v2, v3, v4) { v1, v2 }
+  #ifndef DUALFEED
+    #if EXTRUDERS > 3
+      #define ARRAY_BY_EXTRUDERS(v1, v2, v3, v4) { v1, v2, v3, v4 }
+    #elif EXTRUDERS > 2
+      #define ARRAY_BY_EXTRUDERS(v1, v2, v3, v4) { v1, v2, v3 }
+    #elif EXTRUDERS > 1
+      #define ARRAY_BY_EXTRUDERS(v1, v2, v3, v4) { v1, v2 }
+    #else
+      #define ARRAY_BY_EXTRUDERS(v1, v2, v3, v4) { v1 }
+    #endif
   #else
-    #define ARRAY_BY_EXTRUDERS(v1, v2, v3, v4) { v1 }
+     #define ARRAY_BY_EXTRUDERS(v1, v2, v3, v4) { v1 }
   #endif
 
   /**
@@ -487,6 +491,8 @@
   #if HAS_FAN
     #define WRITE_FAN(v) WRITE(FAN_PIN, v)
   #endif
+  
+  
 
 #endif //CONFIGURATION_LCD
 #endif //CONDITIONALS_H

@@ -297,7 +297,7 @@
     #if !HAS_HEATER_2
       #error HEATER_2_PIN not defined for this board
     #endif
-  #elif EXTRUDERS > 1 || defined(HEATERS_PARALLEL)
+  #elif (EXTRUDERS > 1 || defined(HEATERS_PARALLEL)) && !defined(DUALFEED)
     #if !HAS_HEATER_1
       #error HEATER_1_PIN not defined for this board
     #endif
@@ -305,7 +305,17 @@
   #if !HAS_HEATER_0
     #error HEATER_0_PIN not defined for this board
   #endif
-
+  
+  /**
+  * Proper configuration if using DUALFEED
+  */
+  #if defined DUALFEED && defined TEMP_SENSOR_1_AS_REDUNDANT
+    #error You cannot use TEMP_SENSOR_1_AS_REDUNDANT if DUALFEED
+  #endif
+  #if defined DUALFEED && EXTRUDERS != 2
+    #error You cannot use DUALFEED if EXTRUDERS != 2
+  #endif
+  
   /**
    * Warnings for old configurations
    */
